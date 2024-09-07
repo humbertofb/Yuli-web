@@ -1,25 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reel Viewer</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mostrar Facebook Reel</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Referencia a tu archivo CSS -->
 </head>
 <body>
-  <div class="container">
-    <h1>Instagram Reel Viewer</h1>
-    <p>Introduce el enlace de un reel de Instagram para verlo en la página.</p>
+    <div class="container">
+        <h1>Reproductor de Facebook Reel</h1>
+        
+        <form id="reelForm">
+            <input type="text" id="reelUrl" placeholder="Ingresa el enlace del reel de Facebook" required>
+            <button type="submit">Mostrar Reel</button>
+        </form>
 
-    <!-- Formulario que envía los datos a Vercel -->
-    <form action="/show-reel" method="POST">
-      <input type="text" name="reelUrl" placeholder="https://www.instagram.com/reel/..." required>
-      <button type="submit">Ver Reel</button>
-    </form>
+        <div id="videoContainer"></div>
+        <p id="error" style="color: red;"></p>
 
-    <div class="info">
-      <p>Introduce el enlace completo del reel de Instagram y haz clic en "Ver Reel".</p>
+        <div class="info">
+            <p>¿No tienes un enlace de Facebook Reel? <a href="https://www.facebook.com/reels" target="_blank">Obtén uno aquí</a>.</p>
+        </div>
     </div>
-  </div>
+
+    <script>
+        const form = document.getElementById('reelForm');
+        const videoContainer = document.getElementById('videoContainer');
+        const errorElement = document.getElementById('error');
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const reelUrl = document.getElementById('reelUrl').value;
+
+            try {
+                // Llamada al backend en Vercel
+                const response = await fetch('https://yuli-web.vercel.app/show-reel', {  // Tu dominio de Vercel
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ reelUrl })
+                });
+
+                const data = await response.json();
+                if (data.videoUrl) {
+                    videoContainer.innerHTML = `
+                        <video controls width="100%">
+                            <source src="${data.videoUrl}" type="video/mp4">
+                            Tu navegador no soporta el video.
+                        </video>
+                    `;
+                    errorElement.textContent = '';
+                } else {
+                    errorElement.textContent = 'No se pudo extraer el video. Verifica el enlace.';
+                }
+            } catch (error) {
+                errorElement.textContent = 'Ocurrió un error al procesar el enlace.';
+            }
+        });
+    </script>
 </body>
 </html>
