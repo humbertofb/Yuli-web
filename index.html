@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reel Viewer</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Instagram Reel Viewer</h1>
+    <p>Introduce el enlace de un reel de Instagram para verlo en la página.</p>
+
+    <!-- Formulario que envía los datos a Vercel -->
+    <form action="/show-reel" method="POST">
+      <input type="text" name="reelUrl" placeholder="https://www.instagram.com/reel/..." required>
+      <button type="submit">Ver Reel</button>
+    </form>
+
+    <div class="info">
+      <p>Introduce el enlace completo del reel de Instagram y haz clic en "Ver Reel".</p>
+    </div>
+  </div>
+</body>
+</html>
