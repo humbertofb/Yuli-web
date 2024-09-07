@@ -6,7 +6,7 @@ const app = express();
 
 // Lista de dominios permitidos (GitHub Pages y Vercel)
 const allowedOrigins = [
-  'https://humbertofb.github.io',
+  'https://humbertofb.github.io/yuli-web/index.html',
   'https://yuli-web.vercel.app',
   'https://yuli-web-git-main-humbers-projects-cc0e4db8.vercel.app'
 ];
